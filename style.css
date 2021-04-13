@@ -1,0 +1,7 @@
+*{box-sizing: border-box;}
+#canvas {
+    border: 20px solid #ddd;
+    background-color: #efefef;
+    display: block;
+    margin: 50px auto;
+}
