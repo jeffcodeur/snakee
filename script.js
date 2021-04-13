@@ -10,6 +10,7 @@ const delay = 100;
 let score;
 let snakee;
 let apple;
+let intervalId;
 
 init();
 
@@ -30,8 +31,8 @@ function refreshCanvas() {
   snakee.advance();
   if (snakee.checkCollision()) {
     clearInterval(intervalId);
+    snakee.advance = null;
     gameOver();
-    snakee.advance = false;
   } else {
     if (snakee.hasEatenApple(apple)) {
       snakee.ateApple = true;
@@ -69,6 +70,7 @@ function gameOver() {
 }
 
 function restart() {
+  clearInterval(intervalId);
   snakee = new Snake([
     [6, 4],
     [5, 4],
