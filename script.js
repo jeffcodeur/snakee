@@ -12,7 +12,18 @@ let snakee;
 let apple;
 let intervalId;
 
-init();
+let startButton = document.getElementById("start");
+startButton.addEventListener("click", start);
+
+//init();
+/**
+ * Lance le jeu
+ */
+function start() {
+  canvas.style.display = "block";
+  startButton.style.display = "none";
+  init();
+}
 
 function init() {
   canvas.width = canvasWidth;
@@ -64,7 +75,7 @@ function gameOver() {
   ctx.font = "20px sans-serif";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#999";
-  ctx.fillText("Ooops Vous avez Perdu :(", canvasWidth * 0.40, 105);
+  ctx.fillText("Ooops Vous avez Perdu :(", canvasWidth * 0.4, 105);
   ctx.fillText("Appuyez sur la touche Espace pour recommencer", 280, 35);
   ctx.restore();
 }
@@ -230,9 +241,9 @@ document.onkeydown = function handleKeyDown(e) {
     case "ArrowDown":
       newDirection = "down";
       break;
-    case "Space" : 
-        restart();
-        return;
+    case "Space":
+      restart();
+      return;
     default:
       return;
   }
