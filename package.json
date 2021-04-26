@@ -1,0 +1,16 @@
+{
+  "name": "snakee",
+  "version": "1.0.0",
+  "description": "Le jeu du serpent(The Snake)",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Snake",
+    "Game"
+  ],
+  "author": "jeffrey akpa-n'da",
+  "license": "MIT",
+  "devDependencies": {}
+}

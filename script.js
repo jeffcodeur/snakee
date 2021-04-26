@@ -12,10 +12,9 @@ let snakee;
 let apple;
 let intervalId;
 
-let startButton = document.getElementById("start");
+const startButton = document.getElementById("start");
 startButton.addEventListener("click", start);
 
-//init();
 /**
  * Lance le jeu
  */
@@ -36,6 +35,7 @@ function init() {
   apple = new Apple([10, 10]);
   score = 0;
   intervalId = setInterval(refreshCanvas, delay);
+  ControlTheSnake();
 }
 
 function refreshCanvas() {
@@ -64,8 +64,8 @@ function drawScore() {
   ctx.font = "200px sans-serif";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#ddd";
-  let centerX = canvasWidth * 0.43;
-  let centerY = canvasHeight / 2;
+  const centerX = canvasWidth * 0.43;
+  const centerY = canvasHeight / 2;
   ctx.fillText(score.toString(), centerX, centerY);
   ctx.restore();
 }
@@ -93,8 +93,8 @@ function restart() {
 }
 
 function drawBlock(ctx, postion) {
-  let x = postion[0] * blockSize;
-  let y = postion[1] * blockSize;
+  const x = postion[0] * blockSize;
+  const y = postion[1] * blockSize;
   ctx.fillStyle = "orange";
   ctx.fillRect(x, y, blockSize, blockSize);
 }
@@ -116,7 +116,7 @@ function Snake(body) {
         allowedDirection = ["left", "right"];
         break;
       default:
-        throw "Invald direction";
+        throw new Error("Invald direction");
     }
 
     if (allowedDirection.includes(direction)) {
@@ -135,7 +135,7 @@ function Snake(body) {
   };
 
   this.advance = function () {
-    let nextPosition = this.body[0].slice();
+    const nextPosition = this.body[0].slice();
     switch (this.direction) {
       case "left":
         nextPosition[0]--;
@@ -158,17 +158,17 @@ function Snake(body) {
   this.checkCollision = function () {
     let wallCollision = false;
     let snakeCollision = false;
-    let head = this.body[0];
-    let rest = this.body.slice(1);
-    let snakeX = head[0];
-    let snakeY = head[1];
-    let minX = 0;
-    let minY = 0;
-    let maxX = widthInBlock - 1;
-    let maxY = heightInBlock - 1;
+    const head = this.body[0];
+    const rest = this.body.slice(1);
+    const snakeX = head[0];
+    const snakeY = head[1];
+    const minX = 0;
+    const minY = 0;
+    const maxX = widthInBlock - 1;
+    const maxY = heightInBlock - 1;
 
-    let isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
-    let isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
+    const isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
+    const isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
 
     if (isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls) {
       wallCollision = true;
@@ -183,10 +183,8 @@ function Snake(body) {
   };
 
   this.hasEatenApple = function (apple) {
-    let head = this.body[0];
-    return head[0] === apple.position[0] && head[1] === apple.position[1]
-      ? true
-      : false;
+    const head = this.body[0];
+    return !!(head[0] === apple.position[0] && head[1] === apple.position[1]);
   };
 }
 
@@ -196,17 +194,17 @@ function Apple(position) {
     ctx.save();
     ctx.beginPath();
     ctx.fillStyle = "green";
-    let radius = blockSize / 2;
-    let x = this.position[0] * blockSize + radius;
-    let y = this.position[1] * blockSize + radius;
+    const radius = blockSize / 2;
+    const x = this.position[0] * blockSize + radius;
+    const y = this.position[1] * blockSize + radius;
     ctx.arc(x, y, radius, 0, Math.PI * 2, true);
     ctx.fill();
     ctx.restore();
   };
 
   this.setNewPosition = function () {
-    let newX = Math.floor(Math.random() * (widthInBlock - 1));
-    let newY = Math.floor(Math.random() * (heightInBlock - 1));
+    const newX = Math.floor(Math.random() * (widthInBlock - 1));
+    const newY = Math.floor(Math.random() * (heightInBlock - 1));
     this.position = [newX, newY];
   };
 
@@ -224,28 +222,30 @@ function Apple(position) {
   };
 }
 
-document.onkeydown = function handleKeyDown(e) {
-  let key = e.code;
-  let newDirection;
+function ControlTheSnake() {
+  document.onkeydown = function handleKeyDown(e) {
+    const key = e.code;
+    let newDirection;
 
-  switch (key) {
-    case "ArrowLeft":
-      newDirection = "left";
-      break;
-    case "ArrowUp":
-      newDirection = "up";
-      break;
-    case "ArrowRight":
-      newDirection = "right";
-      break;
-    case "ArrowDown":
-      newDirection = "down";
-      break;
-    case "Space":
-      restart();
-      return;
-    default:
-      return;
-  }
-  snakee.setDirection(newDirection);
-};
+    switch (key) {
+      case "ArrowLeft":
+        newDirection = "left";
+        break;
+      case "ArrowUp":
+        newDirection = "up";
+        break;
+      case "ArrowRight":
+        newDirection = "right";
+        break;
+      case "ArrowDown":
+        newDirection = "down";
+        break;
+      case "Space":
+        restart();
+        return;
+      default:
+        return;
+    }
+    snakee.setDirection(newDirection);
+  };
+}
